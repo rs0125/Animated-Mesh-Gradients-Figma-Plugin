@@ -1,0 +1,70 @@
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/thomas-lowry/figma-plugin-ds/dist/figma-plugin-ds.css"
+/>
+<style>
+  body {
+    padding: 2em;
+    background-color: #1e1e1e; /* Dark background color */
+    color: #fff; /* Text color */
+  }
+  .colorPicker {
+    width: 100px;
+    height: 20px;
+    border: 0px;
+    background-color: #1e1e1e;
+    border-radius: 80px;
+    padding-right: 15px;
+  }
+  div {
+    margin: 1em;
+    padding-top: 15px;
+  }
+</style>
+
+<h1>Animated Mesh Gradients</h1>
+
+<div class="input">
+  <input type="color" id="color1" class="colorPicker"/>
+  <label for="colorPicker">Color 1</label>
+</div>
+
+<div class="input">
+  <input type="color" id="color2" class="colorPicker"/>
+  <label for="colorPicker">Color 2</label>
+</div>
+
+<div class="input">
+  <input type="color" id="color3" class="colorPicker"/>
+  <label for="colorPicker">Color 3</label>
+</div>
+
+<div class="input">
+  <input type="color" id="color4" class="colorPicker"/>
+  <label for="colorPicker">Color 4</label>
+</div>
+
+<div>
+  <button class="button button--primary" id="submit-post">Generate</button>
+</div>
+
+<script>
+  document.getElementById("submit-post").onclick = () => {
+    const color1 = document.getElementById("color1").value;
+    const color2 = document.getElementById("color2").value;
+    const color3 = document.getElementById("color3").value;
+    const color4 = document.getElementById("color4").value;
+
+    parent.postMessage(
+      {
+        pluginMessage: {
+          color1,
+          color2,
+          color3,
+          color4,
+        },
+      },
+      "*"
+    );
+  };
+</script>
