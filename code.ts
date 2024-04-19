@@ -16,27 +16,19 @@ function parseColor(hex : string) {
   return { r, g, b };
 }
 
-figma.ui.onmessage = pluginMessage => {
-  const nodes: SceneNode[] = [];
-  const colorValues: string[] = [];
-
-// Loop through the keys of the colors object and push the values into the array
-for (const key in pluginMessage) {
-  if (pluginMessage.hasOwnProperty(key)) {
-    const colorValue = pluginMessage[key];
-    colorValues.push(colorValue);
+figma.ui.onmessage = async (pluginMessage) => {
+  try {
+    await figma.loadAllPagesAsync();
+    const gradcomponentset = figma.root.findOne(node => node.name =='meshgrad' && node.type == 'COMPONENT_SET') as ComponentSetNode;
+    if (gradcomponentset) {
+      figma.currentPage.appendChild(gradcomponentset);
+      console.log(gradcomponentset);
+    } else {
+      console.error('Component set "meshgrad" not found.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  } finally {
+    figma.closePlugin();
   }
-}
-
-//testing working of color input
-  let xcord : number  = 100;
-  for (const col of colorValues){
-      const rect = figma.createFrame();
-      rect.x = xcord;
-      rect.fills = [{type: 'SOLID', color: parseColor(col)}];
-      figma.currentPage.appendChild(rect);
-      xcord += 100
-  }
-
-    figma.closePlugin()
-}
+};
