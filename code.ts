@@ -18,10 +18,25 @@ function parseColor(hex : string) {
 
 figma.ui.onmessage = pluginMessage => {
   const nodes: SceneNode[] = [];
-  const rect = figma.createFrame();
-      rect.x = 150;
-      rect.fills = [{type: 'SOLID', color: parseColor(pluginMessage.color1)}];
+  const colorValues: string[] = [];
+
+// Loop through the keys of the colors object and push the values into the array
+for (const key in pluginMessage) {
+  if (pluginMessage.hasOwnProperty(key)) {
+    const colorValue = pluginMessage[key];
+    colorValues.push(colorValue);
+  }
+}
+
+//testing working of color input
+  let xcord : number  = 100;
+  for (const col of colorValues){
+      const rect = figma.createFrame();
+      rect.x = xcord;
+      rect.fills = [{type: 'SOLID', color: parseColor(col)}];
       figma.currentPage.appendChild(rect);
+      xcord += 100
+  }
 
     figma.closePlugin()
 }
